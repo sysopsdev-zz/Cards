@@ -28,24 +28,32 @@ func newDeck() deck {
 	return cards
 }
 
+// Receiver function that prints
+// the cards in a deck.
 func (d deck) print() {
 	for i, card := range d {
 		fmt.Println(i, card)
 	}
 }
 
+// Deals number of cards to the player
+// based on handSize. Best used after
+// shuffle.
 func deal(d deck, handSize int) (deck, deck) {
 	return d[:handSize], d[handSize:]
 }
 
+// Converts slice to string.
 func (d deck) toString() string {
 	return strings.Join([]string(d), ",")
 }
 
+// Writes current deck to filename.
 func (d deck) saveToFile(filename string) error {
 	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
 }
 
+// Loads a deck from a filename.
 func newDeckFromFile(filename string) deck {
 	bs, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -57,6 +65,7 @@ func newDeckFromFile(filename string) deck {
 	return deck(s)
 }
 
+// Randomly shuffles deck.
 func (d deck) shuffle() {
 	source := rand.NewSource(time.Now().UnixNano())
 	r := rand.New(source)
